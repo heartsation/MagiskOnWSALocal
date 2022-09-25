@@ -25,20 +25,20 @@ from xml.dom import minidom
 import html
 import warnings
 import re
-import os
 from pathlib import Path
 
 warnings.filterwarnings("ignore")
 
 arch = sys.argv[1]
 
-release_type_map = {"retail": "Retail", "release preview": "RP",
-                    "insider slow": "WIS", "insider fast": "WIF"}
-release_type = release_type_map[sys.argv[2]] if sys.argv[2] != "" else "Retail"
+release_name_map = {"retail": "Retail", "RP": "Release Preview",
+                    "WIS": "Insider Slow", "WIF": "Insider Fast"}
+release_type = sys.argv[2] if sys.argv[2] != "" else "Retail"
+release_name = release_name_map[release_type]
 download_dir = Path.cwd().parent / "download" if sys.argv[3] == "" else Path(sys.argv[3]).resolve()
 tempScript = sys.argv[4]
 cat_id = '858014f3-3934-4abe-8078-4aa193e74ca8'
-print(f"Generating WSA download link: arch={arch} release_type={release_type}", flush=True)
+print(f"Generating WSA download link: arch={arch} release_type={release_name}", flush=True)
 with open(Path.cwd().parent / ("xml/GetCookie.xml"), "r") as f:
     cookie_content = f.read()
 
@@ -80,8 +80,8 @@ for node in doc.getElementsByTagName('SecuredFragment'):
 with open(Path.cwd().parent / "xml/FE3FileUrl.xml", "r") as f:
     file_content = f.read()
 
-if not os.path.exists(download_dir):
-    os.makedirs(download_dir)
+if not download_dir.is_dir():
+    download_dir.mkdir()
 tmpdownlist = open(download_dir/tempScript, 'a')
 for i, v, f in identities:
     if re.match(f"Microsoft\.UI\.Xaml\..*_{arch}_.*\.appx", f):
