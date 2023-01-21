@@ -1,7 +1,7 @@
 name: Bug report/反馈 Bug
 description: Report errors or unexpected behavior./反馈错误或异常行为。
 labels: [bug]
-title: "[Bug] "
+title: "[Bug] Short description."
 body:
   - type: markdown
     attributes:
@@ -79,10 +79,10 @@ body:
       description: Please copy and paste the error or submit a screenshot. Without log, the issue will be closed. /请复制粘贴错误或提交截图。无日志提交会被关闭。
       value: |
         <details>
-        <summary>Details</summary>
-
-
-
+        
+        ```
+        # Replace this line with the log / 将此行用日志替换
+        ```
         </details>
     validations:
       required: true
